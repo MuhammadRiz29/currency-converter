@@ -1,0 +1,164 @@
+package com.example.currency_convertor;
+
+import android.widget.ArrayAdapter;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        // Initialize views as local variables
+        Spinner spfrom = findViewById(R.id.spfrom);
+        Spinner spto = findViewById(R.id.spto);
+        EditText txtamt = findViewById(R.id.txtamt);
+        Button btnConvert = findViewById(R.id.btn1);
+
+        // Spinner options
+        String[] fromCurrencies = {"USD", "EUR", "GBP"};
+        String[] toCurrencies = {
+                "Indian Rupees", "Sri Lankan Rupees", "Euro", "Pakistani Rupees", "Afghani", "Chinese Yuan",
+                "Bangladeshi Taka", "Iranian Rial", "Germany (Euro)", "Spain (Euro)", "Italy (Euro)",
+                "New Zealand Dollar", "Australian Dollar", "Japanese Yen", "Norwegian Krone", "Brazilian Real",
+                "Argentine Peso", "Turkish Lira"
+        };
+
+        // ArrayAdapter for "from" Spinner
+        ArrayAdapter<String> fromAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, fromCurrencies);
+        fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spfrom.setAdapter(fromAdapter);
+
+        // ArrayAdapter for "to" Spinner
+        ArrayAdapter<String> toAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, toCurrencies);
+        toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spto.setAdapter(toAdapter);
+
+        // Button click event using lambda
+        btnConvert.setOnClickListener(v -> handleConversion(txtamt, spfrom, spto));
+    }
+
+    private void handleConversion(EditText txtamt, Spinner spfrom, Spinner spto) {
+        String fromCurrency = spfrom.getSelectedItem().toString();
+        String toCurrency = spto.getSelectedItem().toString();
+        String amountText = txtamt.getText().toString();
+
+        if (amountText.isEmpty()) {
+            Toast.makeText(MainActivity.this, "Please enter an amount", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        double amount;
+        try {
+            amount = Double.parseDouble(amountText);
+        } catch (NumberFormatException e) {
+            Toast.makeText(MainActivity.this, "Invalid amount entered", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Use switch statement here to select the conversion rate
+        double result = getConversionRate(fromCurrency, toCurrency, amount);
+
+        if (result == -1) {
+            Toast.makeText(MainActivity.this, "Invalid Conversion", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Show result
+        Toast.makeText(MainActivity.this, "Converted Amount: " + result, Toast.LENGTH_LONG).show();
+    }
+
+    private double getConversionRate(String fromCurrency, String toCurrency, double amount) {
+        double rate;
+
+        switch (fromCurrency) {
+            case "USD":
+                rate = getUSDRate(toCurrency);
+                break;
+            case "GBP":
+                rate = getGBPRate(toCurrency);
+                break;
+            case "EUR":
+                rate = getEURRate(toCurrency);
+                break;
+            default:
+                rate = -1;  // Invalid fromCurrency
+                break;
+        }
+
+        if (rate == -1) return rate;
+
+        return amount * rate;
+    }
+
+    private double getUSDRate(String toCurrency) {
+        switch (toCurrency) {
+            case "Indian Rupees": return 81.0;
+            case "Sri Lankan Rupees": return 327.0;
+            case "Euro": return 0.92;
+            case "Pakistani Rupees": return 277.0;
+            case "Afghani": return 86.5;
+            case "Chinese Yuan": return 6.36;
+            case "Bangladeshi Taka": return 108.0;
+            case "Iranian Rial": return 42000.0;
+            case "New Zealand Dollar": return 1.53;
+            case "Australian Dollar": return 1.57;
+            case "Japanese Yen": return 128.0;
+            case "Norwegian Krone": return 10.54;
+            case "Brazilian Real": return 5.09;
+            case "Argentine Peso": return 349.0;
+            case "Turkish Lira": return 27.0;
+            default: return -1;
+        }
+    }
+
+    private double getGBPRate(String toCurrency) {
+        switch (toCurrency) {
+            case "Indian Rupees": return 101.0;
+            case "Sri Lankan Rupees": return 400.0;
+            case "Euro": return 1.13;
+            case "Pakistani Rupees": return 365.0;
+            case "Afghani": return 115.0;
+            case "Chinese Yuan": return 7.20;
+            case "Bangladeshi Taka": return 120.0;
+            case "Iranian Rial": return 47000.0;
+            case "New Zealand Dollar": return 1.60;
+            case "Australian Dollar": return 1.65;
+            case "Japanese Yen": return 140.0;
+            case "Norwegian Krone": return 11.40;
+            case "Brazilian Real": return 5.80;
+            case "Argentine Peso": return 380.0;
+            case "Turkish Lira": return 30.0;
+            default: return -1;
+        }
+    }
+
+    private double getEURRate(String toCurrency) {
+        switch (toCurrency) {
+            case "Indian Rupees": return 88.0;
+            case "Sri Lankan Rupees": return 370.0;
+            case "Euro": return 1.0;
+            case "Pakistani Rupees": return 300.0;
+            case "Afghani": return 100.0;
+            case "Chinese Yuan": return 7.80;
+            case "Bangladeshi Taka": return 130.0;
+            case "Iranian Rial": return 46000.0;
+            case "New Zealand Dollar": return 1.66;
+            case "Australian Dollar": return 1.72;
+            case "Japanese Yen": return 155.0;
+            case "Norwegian Krone": return 11.90;
+            case "Brazilian Real": return 6.00;
+            case "Argentine Peso": return 420.0;
+            case "Turkish Lira": return 32.0;
+            default: return -1;
+        }
+    }
+}
+

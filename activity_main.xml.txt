@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+    <!-- Title TextView -->
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_title"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="24sp"
+        android:textColor="#000"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- From Currency Spinner -->
+    <Spinner
+        android:id="@+id/spfrom"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp"
+        android:prompt="@string/select_currency_from" />
+
+    <!-- To Currency Spinner -->
+    <Spinner
+        android:id="@+id/spto"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp"
+        android:prompt="@string/select_currency_to" />
+
+    <!-- Amount Input -->
+    <EditText
+        android:id="@+id/txtamt"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:autofillHints="none"
+        android:hint="@string/enter_amount"
+        android:inputType="numberDecimal"
+        android:padding="8dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical" />
+
+    <!-- Convert Button -->
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/convert" />
+</LinearLayout>
